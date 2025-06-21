@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema Club Deportivo - Proyecto Integrador</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #3498db, #9b59b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: #7f8c8d;
+            margin-bottom: 20px;
+        }
+
+        .team-info {
+            background: rgba(52, 152, 219, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .team-members {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        .member {
+            background: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .member:hover {
+            transform: translateY(-5px);
+        }
+
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .module-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .module-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            border-color: #3498db;
+        }
+
+        .module-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .module-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+
+        .module-card p {
+            color: #7f8c8d;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .view-code-btn {
+            background: linear-gradient(45deg, #3498db, #2980b9);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .view-code-btn:hover {
+            background: linear-gradient(45deg, #2980b9, #1f5f8b);
+            transform: scale(1.05);
+        }
+
+        .code-viewer {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+
+        .code-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #ecf0f1;
+            padding-bottom: 15px;
+        }
+
+        .code-tab {
+            background: #ecf0f1;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px 8px 0 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .code-tab.active {
+            background: #3498db;
+            color: white;
+        }
+
+        .code-content {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .close-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            float: right;
+            margin-bottom: 10px;
+        }
+
+        .architecture {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        .architecture h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .tech-stack {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .tech-item {
+            text-align: center;
+            padding: 20px;
+            background: rgba(52, 152, 219, 0.1);
+            border-radius: 10px;
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .footer {
+            background: rgba(44, 62, 80, 0.9);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .nav-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .team-members {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🏋️ Sistema Club Deportivo</h1>
+            <p>Proyecto Integrador - Desarrollo de Sistemas Orientado a Objetos</p>
+            
+            <div class="team-info">
+                <h3>👥 Equipo de Desarrollo - Grupo 16</h3>
+                <div class="team-members">
+                    <div class="member">Flores, Fernanda</div>
+                    <div class="member">Alvarez, Silvana Paola</div>
+                    <div class="member">Croci, Gisela</div>
+                    <div class="member">Olave Troncoso, Pamela B.</div>
+                </div>
+                <p style="margin-top: 15px;"><strong>Profesora:</strong> Silvia Cañizares</p>
+                <p><strong>Instituto:</strong> IFTS N° 29</p>
+            </div>
+        </div>
+
+        <!-- Arquitectura del Sistema -->
+        <div class="architecture">
+            <h2>🏗️ Arquitectura del Sistema</h2>
+            <div class="tech-stack">
+                <div class="tech-item">
+                    <h4>🖥️ Frontend</h4>
+                    <p>Windows Forms<br>.NET Framework 4.7.2</p>
+                </div>
+                <div class="tech-item">
+                    <h4>⚙️ Backend</h4>
+                    <p>C# con POO<br>Patrón DAO</p>
+                </div>
+                <div class="tech-item">
+                    <h4>🗄️ Base de Datos</h4>
+                    <p>MySQL 8.0<br>XAMPP</p>
+                </div>
+                <div class="tech-item">
+                    <h4>🔧 Herramientas</h4>
+                    <p>Visual Studio<br>phpMyAdmin</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Módulos del Sistema -->
+        <div class="nav-grid">
+            <div class="module-card">
+                <div class="module-icon">🔐</div>
+                <h3>Login y Configuración</h3>
+                <p>Sistema de autenticación y configuración de base de datos. Punto de entrada seguro al sistema.</p>
+                <button class="view-code-btn" onclick="showCode('login')">Ver Código</button>
+            </div>
+
+            <div class="module-card">
+                <div class="module-icon">📋</div>
+                <h3>Registro de Socios</h3>
+                <p>Registro de nuevos socios y no socios con validaciones completas y apto físico obligatorio.</p>
+                <button class="view-code-btn" onclick="showCode('registro')">Ver Código</button>
+            </div>
+
+            <div class="module-card">
+                <div class="module-icon">💰</div>
+                <h3>Cobro de Cuotas</h3>
+                <p>Gestión de pagos mensuales y diarios con soporte para efectivo y tarjeta con cuotas.</p>
+                <button class="view-code-btn" onclick="showCode('pagos')">Ver Código</button>
+            </div>
+
+            <div class="module-card">
+                <div class="module-icon">🎫</div>
+                <h3>Generar Carnet</h3>
+                <p>Generación de carnets para socios con cuota al día. Validación en cascada y vista previa.</p>
+                <button class="view-code-btn" onclick="showCode('carnet')">Ver Código</button>
+            </div>
+
+            <div class="module-card">
+                <div class="module-icon">📊</div>
+                <h3>Listado de Vencimientos</h3>
+                <p>Consulta inteligente de socios con cuotas por vencer. Campos calculados y exportación.</p>
+                <button class="view-code-btn" onclick="showCode('vencimientos')">Ver Código</button>
+            </div>
+
+            <div class="module-card">
+                <div class="module-icon">🗄️</div>
+                <h3>Capa de Datos (DAO)</h3>
+                <p>Clases de acceso a datos con patrón DAO. PersonaDAO, SocioDAO, CuotaDAO.</p>
+                <button class="view-code-btn" onclick="showCode('dao')">Ver Código</button>
+            </div>
+
+            <div class="module-card">
+                <div class="module-icon">🏗️</div>
+                <h3>Modelos</h3>
+                <p>Clases de entidades: Persona, Socio, NoSocio, Cuota, Carnet con sus relaciones.</p>
+                <button class="view-code-btn" onclick="showCode('models')">Ver Código</button>
+            </div>
+
+            <div class="module-card">
+                <div class="module-icon">🗃️</div>
+                <h3>Base de Datos</h3>
+                <p>Estructura completa de la base de datos MySQL con tablas, relaciones y datos de prueba.</p>
+                <button class="view-code-btn" onclick="showCode('database')">Ver Código</button>
+            </div>
+        </div>
+
+        <!-- Visor de Código -->
+        <div id="codeViewer" class="code-viewer">
+            <button class="close-btn" onclick="hideCode()">✖ Cerrar</button>
+            <h3 id="codeTitle">Código del Módulo</h3>
+            
+            <div id="codeTabs" class="code-tabs">
+                <!-- Los tabs se generan dinámicamente -->
+            </div>
+            
+            <div id="codeContent" class="code-content">
+                <pre id="codeText">Selecciona un archivo para ver el código...</pre>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>📚 Proyecto Integrador - Desarrollo de Sistemas Orientado a Objetos</p>
+            <p>🎓 Instituto de Formación Técnica Superior N° 29</p>
+            <p>⭐ Implementación completa con principios de POO, patrón DAO y base de datos relacional</p>
+        </div>
+    </div>
+
+    <script>
+        // Simulación de código de archivos (aquí pondrías el código real)
+        const codeFiles = {
+            login: {
+                'FormLogin.cs': `using System;
+using System.Drawing;
+using System.Windows.Forms;
+
+namespace ClubDeportivoSystem.Forms
+{
+    public class FormLogin : Form
+    {
+        private Label lblTitulo;
+        private Label lblUsuario;
+        private Label lblPassword;
+        private TextBox txtUsuario;
+        private TextBox txtPassword;
+        private Button btnIngresar;
+        private Button btnSalir;
+
+        public FormLogin()
+        {
+            InitializeComponent();
+        }
+
+        private void btnIngresar_Click(object sender, EventArgs e)
+        {
+            if (txtUsuario.Text.Trim() == "admin" && txtPassword.Text.Trim() == "admin")
+            {
+                MessageBox.Show("¡Bienvenido al sistema!", "Acceso Exitoso");
+                FormPrincipal formPrincipal = new FormPrincipal();
+                this.Hide();
+                formPrincipal.ShowDialog();
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show("Usuario o contraseña incorrectos.");
+                txtPassword.Clear();
+                txtUsuario.Focus();
+            }
+        }
+        
+        // ... más código del FormLogin
+    }
+}`,
+                'FormConfigDB.cs': `// Código del formulario de configuración de base de datos
+// Permite configurar servidor, puerto, database, usuario y contraseña
+// Incluye validación de conexión antes de guardar`
+            },
+            
+            registro: {
+                'FormRegistro.cs': `// Formulario principal de registro de socios y no socios
+// Incluye validaciones de DNI, apto físico obligatorio
+// Diferenciación entre tipos de usuario`,
+                'Validaciones.cs': `// Lógica de validación de datos
+// Validación de DNI, nombres, apellidos
+// Control de apto físico`
+            },
+            
+            pagos: {
+                'FormPagos.cs': `// Módulo de cobro de cuotas mensuales y diarias
+// Diferenciación entre socios y no socios
+// Integración con módulo de pagos con tarjeta`,
+                'FormPagoTarjeta.cs': `// Submódulo para pagos con tarjeta
+// Validación de datos de tarjeta
+// Sistema de cuotas con descuentos`
+            },
+            
+            carnet: {
+                'FormCarnet.cs': `// Módulo de generación de carnets para socios
+// Validación en cascada: DNI → Persona → Socio → Estado Cuota
+// Vista previa del carnet con datos completos`,
+                'CarnetValidation.cs': `// Lógica de validación específica para carnets
+// Verificación de precondiciones
+// Formato y estructura del carnet`
+            },
+            
+            vencimientos: {
+                'FormVencimientos.cs': `// Consulta de socios con cuotas por vencer
+// Uso de campos calculados con CASE WHEN en SQL
+// Exportación de reportes`,
+                'VencimientosLogic.cs': `// Lógica de cálculo de vencimientos
+// Algoritmos de fechas y estados
+// Generación de reportes`
+            },
+            
+            dao: {
+                'DatabaseConnection.cs': `// Clase central de conexión a base de datos
+// Patrón Singleton para configuración global
+// Factory methods para crear conexiones`,
+                'PersonaDAO.cs': `// Data Access Object para tabla personas
+// CRUD completo con validaciones
+// Integración con patrón DAO`,
+                'SocioDAO.cs': `// DAO específico para gestión de socios
+// Generación automática de números de socio
+// Consultas relacionales con personas`,
+                'CuotaDAO.cs': `// Gestión de cuotas y pagos
+// Transacciones complejas
+// Actualización de estados`
+            },
+            
+            models: {
+                'Persona.cs': `// Entidad base del sistema
+// Propiedades: Id, Nombre, Apellido, DNI, TipoPersona
+// Validaciones y métodos de negocio`,
+                'Socio.cs': `// Entidad específica para socios
+// Relación de composición con Persona
+// Estado de cuota y número de socio`,
+                'Cuota.cs': `// Entidad para gestión de pagos
+// Diferentes tipos de cuota
+// Estados y fechas`,
+                'Carnet.cs': `// Entidad para carnets de socios
+// Fechas de emisión y vencimiento
+// Estado activo/inactivo`
+            },
+            
+            database: {
+                'club_deportivo.sql': `-- Estructura completa de la base de datos
+-- Tablas: personas, socios, no_socios, cuotas, carnets, pagos_diarios
+-- Relaciones y constraints de integridad referencial
+-- Datos de prueba para desarrollo`,
+                'relationships.md': `# Relaciones de Base de Datos
+
+## Estructura Principal:
+- personas (1) → (0..1) socios
+- personas (1) → (0..1) no_socios  
+- socios (1) → (0..N) cuotas
+- socios (1) → (0..1) carnets
+
+## Integridad Referencial:
+- Foreign Keys con CASCADE
+- Unique constraints en DNI y número de socio
+- Índices para optimización`
+            }
+        };
+
+        function showCode(module) {
+            const viewer = document.getElementById('codeViewer');
+            const title = document.getElementById('codeTitle');
+            const tabs = document.getElementById('codeTabs');
+            const content = document.getElementById('codeText');
+            
+            // Configurar título
+            const titles = {
+                login: '🔐 Login y Configuración',
+                registro: '📋 Registro de Socios',
+                pagos: '💰 Cobro de Cuotas',
+                carnet: '🎫 Generar Carnet',
+                vencimientos: '📊 Listado de Vencimientos',
+                dao: '🗄️ Capa de Datos (DAO)',
+                models: '🏗️ Modelos',
+                database: '🗃️ Base de Datos'
+            };
+            
+            title.textContent = titles[module];
+            
+            // Generar tabs
+            tabs.innerHTML = '';
+            const files = codeFiles[module];
+            const fileNames = Object.keys(files);
+            
+            fileNames.forEach((fileName, index) => {
+                const tab = document.createElement('button');
+                tab.className = 'code-tab' + (index === 0 ? ' active' : '');
+                tab.textContent = fileName;
+                tab.onclick = () => showFile(module, fileName);
+                tabs.appendChild(tab);
+            });
+            
+            // Mostrar primer archivo
+            if (fileNames.length > 0) {
+                showFile(module, fileNames[0]);
+            }
+            
+            // Mostrar visor
+            viewer.style.display = 'block';
+            viewer.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function showFile(module, fileName) {
+            const content = document.getElementById('codeText');
+            const tabs = document.querySelectorAll('.code-tab');
+            
+            // Actualizar tabs activos
+            tabs.forEach(tab => {
+                tab.classList.toggle('active', tab.textContent === fileName);
+            });
+            
+            // Mostrar contenido
+            content.textContent = codeFiles[module][fileName];
+        }
+        
+        function hideCode() {
+            document.getElementById('codeViewer').style.display = 'none';
+        }
+        
+        // Efectos de scroll suave
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
